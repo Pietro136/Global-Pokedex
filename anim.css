@@ -3,7 +3,6 @@
     50% { filter: brightness(1.2) drop-shadow(0 0 10px gold); }
     100% { filter: brightness(1) drop-shadow(0 0 0px gold); }
 }
-ciao
 .shiny-active {
     animation: sparkle 1.5s infinite;
 }
