@@ -1,0 +1,211 @@
+header
+{
+	border: 3px solid black;
+	color: white;
+	font-family: georgian;
+	background-color: #bf3102;
+}
+
+.pattern
+{
+	background-image: url("Immagini/pokeball-pattern.jpg");
+	background-size: 200px 200px;
+}
+
+#pokemonDescription
+{
+	/* Imposta una larghezza fissa minima */
+    min-width: 200px; 
+    
+    /* Oppure usa una larghezza fissa */
+    width: 500px; 
+    
+    /* Assicurati che non esca dallo schermo sui telefoni */
+    max-width: 90vw;
+}
+
+#pokemon-sprite-img {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated; /* Mantiene i bordi dei Pokémon definiti anche se ingranditi */
+}
+.female-btn {background-color: pink;}
+.male-btn {background-color: blue; color: white}
+
+.border-responsive {
+    border-bottom: 1px solid #dee2e6;/* Colore standard dei bordi Bootstrap */
+}
+
+/* Quando lo schermo è almeno "md" (768px), cambiamo il comportamento */
+@media (min-width: 768px) {
+    .border-responsive {
+        border-bottom: 0;           /* Rimuove il bordo sotto */
+        border-right: 1px solid #dee2e6; /* Aggiunge il bordo a destra */
+    }
+}
+
+@media (max-width: 768px){
+	.margin-mobile
+	{
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+}
+
+#pokeDescription {
+    padding: 15px;
+    background-color: #f8f9fa; /* Grigio chiarissimo */
+    border-radius: 8px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 1.1rem;
+    position: relative;
+    border-left: 5px solid #dc3545; /* Una linea rossa stile Pokédex */
+}
+
+/* Effetto virgolette stilizzate */
+#pokeDescription::before {
+    content: '"';
+    font-size: 3rem;
+    color: #dee2e6;
+    position: absolute;
+    top: -10px;
+    left: 5px;
+    font-family: serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+h1, h2, p {
+  margin: 0;
+  font-weight: normal;
+  text-align: center;
+}
+
+/*Gemini 2*/
+.suggestions-list {
+    position: absolute;
+    top: 100%; /* Appare esattamente sotto l'input */
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto; /* Aggiunge lo scroll se ci sono molti risultati */
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.suggestion-item:hover {
+    background-color: #f8f9fa;
+}
+
+.evolution-wrap {
+    /*display: flex;*/
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.type-container {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.type-container > span {
+  color: white;
+}
+
+.type {
+  border: 1px solid #cecece;
+  border-radius: 1rem;
+  padding: 0.1rem 0.75rem;
+}
+
+.grass {
+  background-color: green;
+}
+
+.fire {
+  background-color: darkred;
+}
+
+.water {
+  background-color: #2865a8;
+}
+
+.bug {
+  background-color: #a8b71d;
+}
+
+.dark {
+  background-color: #4e3a2d;
+}
+
+.electric {
+  background-color: #efb219;
+}
+
+.fairy {
+  background-color: #eeabee;
+}
+
+.fighting {
+  background-color: #853f27;
+}
+
+.flying {
+  background-color: #5d74d4;
+}
+
+.ghost {
+  background-color: #5f60a9;
+}
+
+.ground {
+  background-color: #ae924c;
+}
+
+.poison {
+  background-color: rebeccapurple;
+}
+
+.ice {
+  background-color: #98e3fa;
+}
+
+.normal {
+  background-color: #c6c0b9;
+}
+
+.psychic {
+  background-color: #e02f64;
+}
+
+.rock {
+  background-color: #a28a40;
+}
+
+.steel {
+  background-color: #b4b4c4;
+}
+
+.dragon {
+  background-color: #725bd8;
+}

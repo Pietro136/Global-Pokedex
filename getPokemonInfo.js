@@ -1,0 +1,240 @@
+const API_URL="https://pokeapi.co/api/v2";
+
+var firstTry=true;
+
+var currentSprites = {
+	front_default: '',
+    back_default: '',
+    front_shiny: '',
+    back_shiny: ''
+};
+
+var backSprite=false
+var shinySprite=false;
+var isFemale=false;
+
+var gameAppearance;
+var pokemonTypes;
+
+var list;
+var abilityTable;
+var abilityTBody;
+var typeContainer;
+var cardTitle;
+var statCont;
+
+var evoTitle;
+var evoContainer;
+
+var pokeDesc;
+
+function initialize()
+{
+	//console.log("Qua inizializzo");
+	gameAppearance = [];
+	pokemonTypes=[];
+
+	list = document.querySelector(".list-group");
+	abilityTable = document.getElementById('abilityTable');
+	abilityTBody = abilityTable.children[1];
+	typeContainer=document.querySelector(".type-container");
+	
+	statCont=document.getElementById("pokemonStats");
+	
+	evoTitle=document.getElementById('evTitle');
+	evoContainer=document.getElementById("evolutionChain");
+	pokeDesc=document.getElementById("pokeDescription");
+}
+
+function restart()
+{
+	console.log("Restart")
+	if (typeContainer) typeContainer.innerHTML = '';
+	if (abilityTBody) abilityTBody.innerHTML = '';
+	if (list) list.innerHTML = '';
+	if (statCont) statCont.innerHTML='';
+	if (evoTitle) evoTitle.innerHTML="Catena di evoluzione";
+	if (evoContainer) evoContainer.innerHTML='';
+	
+	//console.log(abilityTable)
+	gameAppearance.length = 0;
+	pokemonTypes.length=0;
+	
+    if (cardTitle) cardTitle.textContent = '';
+	
+	if (spriteImg.src==currentSprites.front_shiny ||
+		spriteImg.src==currentSprites.back_shiny)
+			shinyBtn.classList.toggle("btn-warning");
+	
+	shinySprite=false;
+	backSprite=false;
+	isFemale=false;
+	
+	if(!genderBtn.classList.contains('d-none')) 
+		//Cancelliamo gli sprite extra se non servono
+	{
+		genderBtn.classList.add('d-none');
+		genderBtn.classList.remove('male-btn');
+		genderBtn.classList.remove('fa-mars');
+		genderBtn.classList.add('female-btn');
+		genderBtn.classList.add('fa-venus');
+		delete currentSprites.front_female;
+		delete currentSprites.back_female;
+		delete currentSprites.front_shiny_female;
+		delete currentSprites.back_shiny_female;
+	}
+}
+
+//!!!!!!! non mettere EventListener qui dentro
+async function getPokemonInfos(inputValue)	
+{
+	document.getElementById('suggestions').classList.add('d-none');
+	if (firstTry) {
+        initialize();
+    } else {
+        restart();
+    }
+	
+	if(!/\d/.test(inputValue)) inputValue=inputValue.toLowerCase();
+	
+	try
+	{
+	const response =await fetch(API_URL+"/pokemon/"+inputValue);  //<- IMPORTANTE
+	if (!response.ok) {
+		if (response.status === 404) {
+			//throw new Error(`Error: ${response.status} - ${inputValue} is
+			//not a valid Pokémon`);
+			//searcher(inputValue)
+		} else {
+		throw new Error("HTTP error! Status: "+response.status);
+		}
+		return response.json();
+	}
+	//data=i dati del pokemon deciso
+		const data=await response.json();  //Arriva con successo!!!
+			//console.log(abilityTable)
+			
+			pokemonCard=document.getElementById("pokemonDescription")
+			pokemonCard.classList.remove('d-none');
+			cardTitle=document.querySelector(".card-title");
+			const spriteImg=document.getElementById("pokemon-sprite-img");
+
+			cardTitle.textContent += "Pokemon #"+data.id+" - "+capitalize(data.name);
+			
+			currentSprites.front_default=data.sprites.front_default;
+			currentSprites.back_default=data.sprites.back_default;
+			currentSprites.front_shiny=data.sprites.front_shiny;
+			currentSprites.back_shiny=data.sprites.back_shiny;
+			if(data.sprites.front_female!=null) addFemaleSprites(data);
+			console.log(currentSprites);
+			
+			switchSprite() //Sprite iniziale
+			/*console.log(data)
+			console.log(data.name)
+			console.log(data.abilities)
+			console.log(data.height)
+			console.log(data.id)
+			*/
+			
+			data.types.forEach(obj => { //Elementi
+				pokemonTypes.push(obj);
+			})
+			
+			pokemonTypes.forEach(type => {
+				const pokemonType = document.createElement('span');
+				pokemonType.classList.add(`${type.type.name}`);
+				pokemonType.classList.add(`type`);
+				pokemonType.textContent = capitalize(type.type.name);
+				typeContainer.appendChild(pokemonType);
+			})
+			
+			data.abilities.forEach((obj, index) => { //Abilità
+				const abilityRow = document.createElement('tr');
+				const abilityIndex = document.createElement('td');
+				const abilityName = document.createElement('td');
+				const abilityHidden = document.createElement('td');
+				abilityIndex.textContent = index + 1;
+				abilityName.textContent = capitalize(obj.ability.name);
+				abilityHidden.textContent = capitalize(String(obj.is_hidden))
+				abilityTBody.appendChild(abilityRow);
+				abilityRow.appendChild(abilityIndex);
+				abilityRow.appendChild(abilityName);
+				abilityRow.appendChild(abilityHidden);
+			});
+			
+			data.game_indices.forEach(obj => //Giochi/Versioni in cui appaiono
+			{
+				let version=obj.version.name;
+				version=capitalize(version);
+				if (version.includes("-"))
+					version=spaceReplace(version);
+				//console.log(version);
+				
+				let li=document.createElement("li")
+				li.classList.add("list-group-item")
+				
+				let nodeT=document.createTextNode(version);
+				li.appendChild(nodeT);
+				list.appendChild(li);
+			})
+			
+			statCont.appendChild
+			
+			console.log(data.stats)
+			let score=0
+			data.stats.forEach(obj=>
+			{
+				const statName=spaceReplace(obj.stat.name)
+				const statValue=obj.base_stat
+				const percentage = (statValue / 150) * 100; // Calcolo percentuale
+				
+				const statW=document.createElement('div')
+				statW.classList.add("mb-2");
+				
+				
+				statW.innerHTML=`
+				<div class="d-flex justify-content-between mb-1" style="font-size: 0.9rem;">
+					<span class="text-uppercase fw-bold">${statName}</span>
+					<span class="fw-bold">${statValue}</span>
+				</div>
+				<div class="progress" style="height: 8px; background-color: #e9ecef;">
+					<div class="progress-bar" 
+						 role="progressbar" 
+						 style="width: 0%; transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);" 
+						 aria-valuenow="${statValue}" 
+						 aria-valuemin="0" 
+						 aria-valuemax="255">
+					</div>
+				</div>`;
+				statCont.appendChild(statW);
+				
+				setTimeout(() => {
+				const bar = statW.querySelector('.progress-bar');
+				bar.style.width = percentage + "%";
+				// Cambiamo colore in base al valore
+				if(statValue < 10) bar.classList.add('bg-dark');
+				else if(statValue < 60) bar.classList.add('bg-danger'); //Debole
+				else if(statValue < 90) bar.classList.add('bg-warning'); //Medio
+				else if(statValue < 150) bar.classList.add('bg-success');//Buono
+				else  bar.classList.add('bg-primary'); //Fantastico!
+			}, 100);
+				score+=statValue
+			})
+			const total=document.createElement('p')
+			total.className="mt-2 text-end fw-bold";
+			total.innerHTML="BST: "+score;
+			statCont.appendChild(total);
+			
+			const speciesData=await getSpeciesInfo(data);
+			const evoData=await getEvoInfo(speciesData);
+			if(evoData.chain.evolves_to.length>0) renderEvo(evoData);
+			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
+			
+			insertDescription(speciesData)
+			
+			firstTry=false;
+	}
+	catch(e){ 
+	window.alert(e.message)
+	};
+}
