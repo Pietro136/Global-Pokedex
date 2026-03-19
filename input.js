@@ -3,6 +3,7 @@ const shinyBtn=document.querySelector("#shiny-button");
 const inputValue=document.querySelector("#pokemon-search-input");
 const spriteImg = document.getElementById('pokemon-sprite-img'); 
 const genderBtn=document.getElementById('genderButton');
+const descBtn=document.getElementById('descButton')
 
 // Opzionale: chiudi la tendina se l'utente clicca fuori (gemini)
 document.addEventListener('click', (e) => {

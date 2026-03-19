@@ -11,6 +11,7 @@
           crossorigin="anonymous">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="icon" type="image/x-icon" href="Immagini/website_icon.png">
     <title>PokeAPI</title>
 </head>
 <body class="pattern">
@@ -21,17 +22,17 @@
 	
 	<div class="input-group my-3 w-auto">
         <input
-          id="pokemon-search-input"
-          type="text"
-          class="form-control"
-          placeholder="Search for Pokemon"
-          aria-label="Search for Pokemon"
-          aria-describedby="submit-button">
+        	id="pokemon-search-input"
+        	type="text"
+        	class="form-control"
+        	placeholder="Search for Pokemon"
+        	aria-label="Search for Pokemon"
+        	aria-describedby="submit-button">
 		<div id="suggestions" class="suggestions-list d-none"></div>
         <button
-          class="btn btn-primary fa fa-solid fa-magnifying-glass"
-          type="submit"
-          id="submit-button">
+			class="btn btn-primary fa fa-solid fa-magnifying-glass"
+			type="submit"
+			id="submit-button">
         </button>
     </div>
 	
@@ -77,9 +78,9 @@
 								</button>
 							</h2>
 							<div
-							  id="collapseOne"
-							  class="accordion-collapse collapse"
-							  data-bs-parent="#gameAppearanceAccordion">
+								id="collapseOne"
+								class="accordion-collapse collapse"
+								data-bs-parent="#gameAppearanceAccordion">
 								<div class="accordion-body">
 									<ul class="list-group">
 									</ul>
@@ -89,30 +90,39 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-3 p-3 border-responsive">
+			<div class="col-12 col-md-3 p-3 border-responsive"> <!-- Seconda colonna -->
 				<div class="d-flex flex-column justify-content-between" id="pokemonStats">
 					<h6 class="fw-bold mb-3">Statistiche di base</h6>
 				</div>
+				<div id="extraInfo"></div>
 			</div>
-			<div class="col-12 col-md-6 bg-light p-3"> <!-- Seconda colonna-->
+			<div class="col-12 col-md-6 bg-light p-3"> <!-- Terza colonna-->
 				<div class="d-flex justify-content-between">
 					<h5 class="fw-bold" id="evTitle">Catena di evoluzione</h5>
 					<button
-						  class="female-btn fa fa-solid fa-venus d-none"
-						  type="submit"
-						  id="genderButton">
+						class="female-btn fa fa-solid fa-venus d-none"
+						type="submit"
+						id="genderButton">
 					</button>
 					<button
-						  class="btn btn-primary fa fa-solid fa-star"
-						  type="submit"
-						  id="shiny-button">
+						class="btn btn-primary fa fa-solid fa-star"
+						type="submit"
+						id="shiny-button">
 					</button>
 				</div>
 				<div id="evolutionChain" class="d-flex evolution-wrap">
 				</div>
-				<div class="d-flex m-4 border">
-					<p class="fst-italic" id="pokeDescription"></p> 
+				<div>
+					<div class="d-flex m-4 border">
+						<p class="fst-italic" id="pokeDescription"></p> 
+					</div>
+					<button
+						class="btn btn-primary fa fa-solid fa-info"
+						type="submit"
+						id="shiny-button">
+					</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
