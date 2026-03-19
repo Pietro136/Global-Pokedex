@@ -2,6 +2,7 @@
 const API_URL="https://pokeapi.co/api/v2";
 
 var firstTry=true;
+var isLatest=true;
 
 var currentSprites = {
 	front_default: '',
@@ -9,10 +10,16 @@ var currentSprites = {
     front_shiny: '',
     back_shiny: ''
 };
+var currentCry={
+	latest: '',
+	legacy: ''
+}
+
 
 var backSprite=false
 var shinySprite=false;
 var isFemale=false;
+
 
 var gameAppearance;
 var pokemonTypes;
@@ -22,7 +29,12 @@ var abilityTable;
 var abilityTBody;
 var typeContainer;
 var cardTitle;
+
 var statCont;
+var extraInfo;
+
+var playCry;
+
 
 var evoTitle;
 var evoContainer;
@@ -41,6 +53,8 @@ function initialize()
 	typeContainer=document.querySelector(".type-container");
 	
 	statCont=document.getElementById("pokemonStats");
+	extraInfo=document.getElementById("extraInfo");
+	playCry=document.getElementById("playCry");
 	
 	evoTitle=document.getElementById('evTitle');
 	evoContainer=document.getElementById("evolutionChain");
@@ -70,6 +84,7 @@ function restart()
 	shinySprite=false;
 	backSprite=false;
 	isFemale=false;
+	isLatest=true;
 	
 	if(!genderBtn.classList.contains('d-none')) 
 		//Cancelliamo gli sprite extra se non servono
@@ -84,6 +99,10 @@ function restart()
 		delete currentSprites.front_shiny_female;
 		delete currentSprites.back_shiny_female;
 	}
+	if(latestBtn.classList.contains('d-none'))
+		latestBtn.classList.remove('d-none')
+	if(legacyBtn.classList.contains('d-none'))
+		legacyBtn.classList.remove('d-none')
 }
 
 //!!!!!!! non mettere EventListener qui dentro
@@ -122,6 +141,7 @@ async function getPokemonInfos(inputValue)
 
 			cardTitle.textContent += "Pokemon #"+data.id+" - "+capitalize(data.name);
 			
+			//Colonna 1
 			currentSprites.front_default=data.sprites.front_default;
 			currentSprites.back_default=data.sprites.back_default;
 			currentSprites.front_shiny=data.sprites.front_shiny;
@@ -179,6 +199,7 @@ async function getPokemonInfos(inputValue)
 				list.appendChild(li);
 			})
 			
+			//Colonna 2
 			statCont.appendChild
 			
 			console.log(data.stats)
@@ -226,17 +247,26 @@ async function getPokemonInfos(inputValue)
 			total.innerHTML="BST: "+score;
 			statCont.appendChild(total);
 			
+			if(data.cries.legacy==null) legacyBtn.classList.add('d-none')
+			//togliamo i pulsanti audio non necessari
+			if(data.cries.latest==null) latestBtn.classList.add('d-none')
+			currentCry.latest=data.cries.latest //Diamo i valori ad un oggetto globale
+			currentCry.legacy=data.cries.legacy
+			
+			playSounds();
+			
+			//Colonna 3
 			const speciesData=await getSpeciesInfo(data);
 			const evoData=await getEvoInfo(speciesData);
 			if(evoData.chain.evolves_to.length>0) renderEvo(evoData);
 			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
 			
-			insertDescription(speciesData)
+			insertDescription(speciesData);
 			
 			firstTry=false;
 	}
 	catch(e){ 
-	window.alert(e.message)
+	console.log(e)
 	};
 }
 // =======

@@ -252,8 +252,26 @@ async function searcher(inputV="")
     } catch (error) {
         console.error("Errore suggerimenti:", error);
     }
-	
 };
+
+function playSounds(playBtn)
+{
+	if(isLatest) playCry.src = currentCry.latest;
+	else if(!isLatest) playCry.src = currentCry.legacy;
+	/* else {
+		const div=document.getElementById('audioCont')//Non verrà mai eseguito questo pezzo di codice(per ora)vvvv
+		const p=document.createElement('p')
+		p.innerHTML="Verso non disponibile per questo Pokémon"
+		div.appendChild(p)
+		// Se non trova l'audio nasconde il bottone
+		playBtn.style.display = 'none';
+	} */
+
+	// Riproduce il verso automaticamente al caricamento
+	playCry.play().catch(error => {
+	console.log("Riproduzione automatica bloccata...");
+	});//Catturiamo un possibile errore di caricamento audio
+}
 
 function spaceReplace(str)
 {

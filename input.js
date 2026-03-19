@@ -5,6 +5,9 @@ const spriteImg = document.getElementById('pokemon-sprite-img');
 const genderBtn=document.getElementById('genderButton');
 const descBtn=document.getElementById('descButton')
 
+const latestBtn=document.getElementById('latestBtn')
+const legacyBtn=document.getElementById('legacyBtn')
+
 // Opzionale: chiudi la tendina se l'utente clicca fuori (gemini)
 document.addEventListener('click', (e) => {
 if (!e.target.closest('.search-container')) {
@@ -63,6 +66,19 @@ genderBtn.addEventListener("click", ()=>
 	genderBtn.classList.toggle('male-btn');
 	genderBtn.classList.toggle('fa-venus');
 	genderBtn.classList.toggle('fa-mars');
+});
+latestBtn.addEventListener("click", ()=>
+{
+	isLatest=true;
+	console.log(isLatest)
+	playSounds(latestBtn)
+});
+//^^^vvv I due gate per accedere ai due tipi di sounds
+legacyBtn.addEventListener("click", ()=>
+{
+	isLatest=false;
+	console.log(isLatest)
+	playSounds(legacyBtn)
 });
 //Per attivare con enter
 document.addEventListener("keydown", processKeyEvent);
