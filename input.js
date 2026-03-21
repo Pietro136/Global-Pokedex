@@ -1,12 +1,20 @@
-const submitBtn=document.querySelector("#submit-button");
-const shinyBtn=document.querySelector("#shiny-button");
-const inputValue=document.querySelector("#pokemon-search-input");
+const inputValue=document.getElementById('pokemon-search-input')
+const submitBtn=document.getElementById('submit-button')
+
+const prevBtn=document.getElementById('previous-button');
+const nextBtn=document.getElementById('next-button');
+
 const spriteImg = document.getElementById('pokemon-sprite-img'); 
-const genderBtn=document.getElementById('genderButton');
-const descBtn=document.getElementById('descButton')
+
+const shinyBtn=document.getElementById('shiny-button');
+const genderBtn=document.getElementById('gender-button');
 
 const latestBtn=document.getElementById('latestBtn')
 const legacyBtn=document.getElementById('legacyBtn')
+
+const descBtn=document.getElementById('desc-button')
+
+
 
 // Opzionale: chiudi la tendina se l'utente clicca fuori (gemini)
 document.addEventListener('click', (e) => {
@@ -22,6 +30,15 @@ submitBtn.addEventListener("click", () => {
 	console.log(inputValue.value)
 	searchForPokemon(inputValue);
 });
+
+prevBtn.addEventListener("click", () => {
+	getPokemonInfos(currentID-1) //avanti
+});
+
+nextBtn.addEventListener("click", () => {
+	getPokemonInfos(currentID+1) //indietro
+});
+
 
 shinyBtn.addEventListener("click", ()=>
 {

@@ -4,17 +4,13 @@ const API_URL="https://pokeapi.co/api/v2";
 var firstTry=true;
 var isLatest=true;
 
-var currentSprites = {
-	front_default: '',
-    back_default: '',
-    front_shiny: '',
-    back_shiny: ''
-};
-var currentCry={
-	latest: '',
-	legacy: ''
-}
+//vvv Variabili per prendere dati dal pokemon attuale, 
+//importante per non dover mantenere le informazioni locali
 
+var currentID;
+var currentSprites;
+var currentCry;
+//^^^
 
 var backSprite=false
 var shinySprite=false;
@@ -46,6 +42,18 @@ function initialize()
 	//console.log("Qua inizializzo");
 	gameAppearance = [];
 	pokemonTypes=[];
+
+	currentID=0;
+	currentSprites={
+		front_default: '',
+		back_default: '',
+		front_shiny: '',
+		back_shiny: ''
+	}
+	currentCry={
+		latest: '',
+		legacy: ''
+	}
 
 	list = document.querySelector(".list-group");
 	abilityTable = document.getElementById('abilityTable');
@@ -99,10 +107,10 @@ function restart()
 		delete currentSprites.front_shiny_female;
 		delete currentSprites.back_shiny_female;
 	}
-	if(latestBtn.classList.contains('d-none'))
-		latestBtn.classList.remove('d-none')
-	if(legacyBtn.classList.contains('d-none'))
-		legacyBtn.classList.remove('d-none')
+	if(latestBtn.classList.contains('d-none')) latestBtn.classList.remove('d-none')
+	if(legacyBtn.classList.contains('d-none')) legacyBtn.classList.remove('d-none')
+	if(prevBtn.classList.contains('d-none')) prevBtn.classList.remove('d-none')
+	if(nextBtn.classList.contains('invisible')) nextBtn.classList.remove('invisible')
 }
 
 //!!!!!!! non mettere EventListener qui dentro
@@ -138,6 +146,10 @@ async function getPokemonInfos(inputValue)
 			pokemonCard.classList.remove('d-none');
 			cardTitle=document.querySelector(".card-title");
 			const spriteImg=document.getElementById("pokemon-sprite-img");
+
+			currentID=data.id //Da conferire ai pulsanti prossimo precedente
+			if(currentID==1) prevBtn.classList.add('d-none') //Controllare se si può andare avanti o indietro
+			if(currentID==1025) nextBtn.classList.add('invisible')
 
 			cardTitle.textContent += "Pokemon #"+data.id+" - "+capitalize(data.name);
 			

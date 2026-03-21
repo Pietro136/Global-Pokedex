@@ -30,15 +30,28 @@
         	aria-describedby="submit-button">
 		<div id="suggestions" class="suggestions-list d-none"></div>
         <button
-			class="btn btn-primary fa fa-solid fa-magnifying-glass"
+			class="btn btn-primary fa-solid fa-magnifying-glass"
 			type="submit"
 			id="submit-button">
         </button>
     </div>
 	
 	<div class="card d-none w-auto margin-mobile" id="pokemonDescription" style="max-width: 900px;"> 
-		<div class="card-header bg-primary text-white">
-			<h5 class="card-title m-0"></h5>
+
+		<div class="d-flex card-header bg-primary justify-content-between">
+			<div class="text-white"><h5 class="card-title m-0"></h5></div>
+			<div class="justify-content-end">
+			<button
+				class="btn btn-danger fa-solid fa-angles-left"
+				type="submit"
+				id="previous-button">
+			</button>
+			<button
+				class="btn btn-danger fa-solid fa-angles-right"
+				type="submit"
+				id="next-button">
+			</button>
+			</div>
 		</div>
     
 		<div class="row g-0">
@@ -107,17 +120,19 @@
 			</div>
 			<div class="col-12 col-md-6 bg-light p-3"> <!-- Terza colonna-->
 				<div class="d-flex justify-content-between">
-					<h5 class="fw-bold" id="evTitle">Catena di evoluzione</h5>
+					<div><h5 class="fw-bold" id="evTitle">Catena di evoluzione</h5></div>
+					<div class="justify-content-end">
 					<button
-						class="female-btn fa fa-solid fa-venus d-none"
+						class="my-btn female-btn fa-solid fa-venus d-none mx-2"
 						type="submit"
-						id="genderButton">
+						id="gender-button">
 					</button>
 					<button
-						class="btn btn-primary fa fa-solid fa-star"
+						class="btn btn-primary fa-solid fa-star"
 						type="submit"
 						id="shiny-button">
 					</button>
+					</div>
 				</div>
 				<div id="evolutionChain" class="d-flex evolution-wrap">
 				</div>
@@ -126,9 +141,9 @@
 						<p class="fst-italic" id="pokeDescription"></p> 
 					</div>
 					<button
-						class="btn btn-primary fa fa-solid fa-info"
+						class="btn btn-primary  fa-solid fa-info"
 						type="submit"
-						id="shiny-button">
+						id="desc-button">
 					</button>
 				</div>
 				
