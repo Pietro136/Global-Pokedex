@@ -24,7 +24,7 @@ var isFemale=false;
 var gameAppearance;
 var pokemonTypes;
 
-var list;
+var list; //Lista delle versioni di gioco
 var abilityTable;
 var abilityTBody;
 var typeContainer;
@@ -147,7 +147,7 @@ async function getPokemonInfos(inputValue)
 			currentSprites.front_shiny=data.sprites.front_shiny;
 			currentSprites.back_shiny=data.sprites.back_shiny;
 			if(data.sprites.front_female!=null) addFemaleSprites(data);
-			console.log(currentSprites);
+			/* console.log(currentSprites); */
 			
 			switchSprite() //Sprite iniziale
 			/*console.log(data)
@@ -202,7 +202,7 @@ async function getPokemonInfos(inputValue)
 			//Colonna 2
 			statCont.appendChild
 			
-			console.log(data.stats)
+			/* console.log(data.stats) */
 			let score=0
 			data.stats.forEach(obj=>
 			{
@@ -262,6 +262,8 @@ async function getPokemonInfos(inputValue)
 			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
 			
 			insertDescription(speciesData);
+
+			console.log(speciesData.varieties)
 			
 			firstTry=false;
 	}

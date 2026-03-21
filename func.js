@@ -4,7 +4,7 @@ function searchForPokemon(IV)
 	const val=IV.value;
 	const hasLetters=/[a-zA-Z]/.test(val);
 	const hasNumbers=/^[0-9]+$/.test(val);
-	if( val.trim()!=="" && (hasLetters || hasNumbers) && (val<=1025 || hasLetters)) //controllo se il valore è accettabile
+	if( val.trim()!=="" && (hasLetters || hasNumbers) && (val<=20000 || hasLetters)) //controllo se il valore è accettabile
 	{
 		//console.log(IV.value)
 		getPokemonInfos(IV.value);
@@ -96,7 +96,7 @@ async function renderEvo(evoData)
 		evoContainer.innerHTML="";
 		// 1. Render del Pokémon Base (Eevee)
 		await drawPokemon(evoData.chain.species.name, evoContainer);
-		console.log('draw');
+		/* console.log('draw'); */
 		// 2. Controlliamo le evoluzioni
 		let evoluzioni = evoData.chain.evolves_to;
 
