@@ -113,7 +113,6 @@ h1, h2, p {
   text-align: center;
 }
 
-/*Gemini 2*/
 .suggestions-list {
     position: absolute;
     top: 100%; /* Appare esattamente sotto l'input */

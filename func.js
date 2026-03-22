@@ -75,8 +75,7 @@ async function insertDescription(speciesData)
 {
 	//console.log(descData);
 	
-	const entry = speciesData.flavor_text_entries.find(e => e.language.name === 'it') 
-               || speciesData.flavor_text_entries.find(e => e.language.name === 'en');
+	const entry = speciesData.flavor_text_entries.find(e => e.language.name === currentLan) 
 
     if (entry) {
         // Pulisci il testo dai caratteri di controllo obsoleti (\f, \n, \t)
@@ -90,12 +89,16 @@ async function insertDescription(speciesData)
     }
 }
 
-async function renderEvo(evoData)
+function getLocalName(speciesData) {return speciesData.names.find(e=>e.language.name===currentLan).name;}
+
+async function renderEvo(evoData, localName)
 {	
+
+
 		//console.log("Evoluzioni")
 		evoContainer.innerHTML="";
 		// 1. Render del Pokémon Base (Eevee)
-		await drawPokemon(evoData.chain.species.name, evoContainer);
+		await drawPokemon(evoData.chain.species.name, evoContainer, localName);
 		/* console.log('draw'); */
 		// 2. Controlliamo le evoluzioni
 		let evoluzioni = evoData.chain.evolves_to;
@@ -110,7 +113,7 @@ async function renderEvo(evoData)
 			evoContainer.appendChild(branchContainer);
 
 			for (const evo of evoluzioni) {
-				// Per ogni evoluzione (Vaporeon, Jolteon, ecc.)
+				// Per ogni evoluzione (Vaporeon, Jolteon, ecc.) per la maggior parte dei pokemon si itera 1 volta
 				const wrapper = document.createElement('div');
 				wrapper.className = 'd-flex align-items-center m-2 p-2';
 				
@@ -147,9 +150,11 @@ async function renderEvo(evoData)
 						<i class="fa-solid fa-arrow-right text-secondary" style="font-size: 0.8rem;"></i>
 					</div>
 				`;
-
+				speciesData=await getSpeciesInfo(evo)
+				console.log(speciesData)
+				localNameEvo=getLocalName(speciesData)
 				// Disegniamo il Pokémon evoluto dentro il wrapper
-				await drawPokemon(evo.species.name, wrapper);
+				await drawPokemon(evo.species.name, wrapper, localNameEvo);
 				branchContainer.appendChild(wrapper);
 				
 				if(evo.evolves_to.length>0){
@@ -160,7 +165,7 @@ async function renderEvo(evoData)
 		evoluzioni=nextIter;
 		}
 		
-		async function drawPokemon(name, container) {
+		async function drawPokemon(name, container, localNameEvo) {
 			
 			
 			// Recuperiamo i dati (necessario per l'immagine)
@@ -173,7 +178,7 @@ async function renderEvo(evoData)
 			
 			div.innerHTML = `
 				<img src="${data.sprites.front_default}" style="width: 70px;" alt="${name}">
-				<p class="small fw-bold mb-0 text-capitalize">${name}</p>
+				<p class="small fw-bold mb-0 text-capitalize">${localNameEvo}</p>
 			`;
 			div.addEventListener("click",()=>{
 				getPokemonInfos(name);
@@ -216,7 +221,7 @@ async function searcher(inputV="")
     }
 
     try {
-        const response = await fetch(`${API_URL}/pokemon?limit=1025`);
+        const response = await fetch(`${API_URL}/pokemon?limit=20000`);
         const data = await response.json();
         
         // Filtriamo i risultati
@@ -254,7 +259,7 @@ async function searcher(inputV="")
     }
 };
 
-function playSounds(playBtn)
+function playSounds()
 {
 	if(isLatest) playCry.src = currentCry.latest;
 	else if(!isLatest) playCry.src = currentCry.legacy;

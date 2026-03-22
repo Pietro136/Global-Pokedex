@@ -1,6 +1,8 @@
 const inputValue=document.getElementById('pokemon-search-input')
 const submitBtn=document.getElementById('submit-button')
 
+const langChoice=document.getElementById('lang-select')
+
 const prevBtn=document.getElementById('previous-button');
 const nextBtn=document.getElementById('next-button');
 
@@ -14,9 +16,14 @@ const legacyBtn=document.getElementById('legacyBtn')
 
 const descBtn=document.getElementById('desc-button')
 
+langChoice.addEventListener('change', (e) => {
+    currentLan = e.target.value;
+    console.log("Lingua cambiata in:", currentLan);
+    if(!firstTry) getPokemonInfos(currentID)
 
+});
 
-// Opzionale: chiudi la tendina se l'utente clicca fuori (gemini)
+// Chiudi la tendina se l'utente clicca fuori
 document.addEventListener('click', (e) => {
 if (!e.target.closest('.search-container')) {
 	document.getElementById('suggestions').classList.add('d-none');
@@ -88,14 +95,14 @@ latestBtn.addEventListener("click", ()=>
 {
 	isLatest=true;
 	console.log(isLatest)
-	playSounds(latestBtn)
+	playSounds()
 });
 //^^^vvv I due gate per accedere ai due tipi di sounds
 legacyBtn.addEventListener("click", ()=>
 {
 	isLatest=false;
 	console.log(isLatest)
-	playSounds(legacyBtn)
+	playSounds()
 });
 //Per attivare con enter
 document.addEventListener("keydown", processKeyEvent);

@@ -10,6 +10,7 @@ var isLatest=true;
 var currentID;
 var currentSprites;
 var currentCry;
+var currentLan;
 //^^^
 
 var backSprite=false
@@ -54,7 +55,7 @@ function initialize()
 		latest: '',
 		legacy: ''
 	}
-
+	currentLan='en'
 	list = document.querySelector(".list-group");
 	abilityTable = document.getElementById('abilityTable');
 	abilityTBody = abilityTable.children[1];
@@ -116,7 +117,7 @@ function restart()
 //!!!!!!! non mettere EventListener qui dentro
 async function getPokemonInfos(inputValue)	
 {
-	document.getElementById('suggestions').classList.add('d-none');
+	document.getElementById('suggestions').classList.add('d-none'); //Nasconde i suggerimenti quando la ricerca inizia
 	if (firstTry) {
         initialize();
     } else {
@@ -141,7 +142,7 @@ async function getPokemonInfos(inputValue)
 	//data=i dati del pokemon deciso
 		const data=await response.json();  //Arriva con successo!!!
 			//console.log(abilityTable)
-			
+			firstTry=false;
 			pokemonCard=document.getElementById("pokemonDescription")
 			pokemonCard.classList.remove('d-none');
 			cardTitle=document.querySelector(".card-title");
@@ -151,7 +152,11 @@ async function getPokemonInfos(inputValue)
 			if(currentID==1) prevBtn.classList.add('d-none') //Controllare se si può andare avanti o indietro
 			if(currentID==1025) nextBtn.classList.add('invisible')
 
-			cardTitle.textContent += "Pokemon #"+data.id+" - "+capitalize(data.name);
+			const speciesData=await getSpeciesInfo(data);
+			const localName=getLocalName(speciesData)
+			console.log(localName)
+			console.log(currentLan)
+			cardTitle.textContent += "Pokemon #"+data.id+" - "+capitalize(localName);
 			
 			//Colonna 1
 			currentSprites.front_default=data.sprites.front_default;
@@ -265,19 +270,18 @@ async function getPokemonInfos(inputValue)
 			currentCry.latest=data.cries.latest //Diamo i valori ad un oggetto globale
 			currentCry.legacy=data.cries.legacy
 			
-			playSounds();
+			/* playSounds(); */
 			
 			//Colonna 3
-			const speciesData=await getSpeciesInfo(data);
 			const evoData=await getEvoInfo(speciesData);
-			if(evoData.chain.evolves_to.length>0) renderEvo(evoData);
+			if(evoData.chain.evolves_to.length>0) renderEvo(evoData, localName);
 			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
 			
 			insertDescription(speciesData);
 
 			console.log(speciesData.varieties)
 			
-			firstTry=false;
+			
 	}
 	catch(e){ 
 	console.log(e)

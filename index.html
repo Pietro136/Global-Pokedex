@@ -15,26 +15,52 @@
     <title>PokeAPI</title>
 </head>
 <body class="pattern">
-<header class="">
-    <h1>PokeAPI</h1>
+<header class="d-flex justify-content-between">
+	<div></div><!-- Per ricreare ^^^^^ l'effetto buono di j-c-b -->
+    <h1 class="fw-bold">PokeAPI</h1>
+	<div class="btn-group dropstart">
+		<button
+			class="btn btn-primary fa-solid fa-gear my-2 mx-2"
+			data-bs-toggle="dropdown"
+            aria-expanded="false">
+		</button>
+		<ul class="dropdown-menu">
+			<li><h6 class="dropdown-header">Impostazioni</h6></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <div class="px-3 py-1">
+                    <label class="form-label small mb-1">Lingua</label>
+                    <select class="form-select form-select-sm" id="lang-select">
+                        <option value="it">Italian</option>
+                        <option value="en">English</option>
+                        <option value="ja-hrkt">日本語(Japanese)</option>
+						<option value="de">German</option>
+						<option value="es">Spanish</option>
+						<option value="fr">French</option>
+                    </select>
+                </div>
+            </li>
+		</ul>
+	</div>
 </header>
-<main class="d-flex flex-column justify-content-center align-items-center">
-	
-	<div class="input-group my-3 w-auto">
-        <input
-        	id="pokemon-search-input"
-        	type="text"
-        	class="form-control"
-        	placeholder="Search for Pokemon"
-        	aria-label="Search for Pokemon"
-        	aria-describedby="submit-button">
-		<div id="suggestions" class="suggestions-list d-none"></div>
-        <button
-			class="btn btn-primary fa-solid fa-magnifying-glass"
-			type="submit"
-			id="submit-button">
-        </button>
-    </div>
+<main class="d-flex flex-column align-items-center">
+	<div class="d-flex justify-content-between my-3">
+		<div class="input-group justify-content-center">
+			<input
+				id="pokemon-search-input"
+				type="text"
+				class="form-control"
+				placeholder="Search for Pokemon"
+				aria-label="Search for Pokemon"
+				aria-describedby="submit-button">
+			<div id="suggestions" class="suggestions-list"></div>
+			<button
+				class="btn btn-primary fa-solid fa-magnifying-glass"
+				type="submit"
+				id="submit-button">
+			</button>
+		</div>
+	</div>
 	
 	<div class="card d-none w-auto margin-mobile" id="pokemonDescription" style="max-width: 900px;"> 
 
@@ -76,28 +102,26 @@
 							<tbody></tbody>
 						</table>
 					</div>
-					<div class="accordion" id="gameAppearanceAccordion">
-						<div class="accordion-item">
-							<h2 class="accordion-header">
-								<button
-								  class="accordion-button"
-								  type="button"
-								  data-bs-toggle="collapse"
-								  data-bs-target="#collapseOne"
-								  aria-expanded="false"
-								  aria-controls="collapseOne">
+					<div class="accordion accordion-item" id="gameAppearanceAccordion">
+						<h2 class="accordion-header">
+							<button
+								class="accordion-button"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#collapseOne"
+								aria-expanded="false"
+								aria-controls="collapseOne">
 
-									Games
-								</button>
-							</h2>
-							<div
-								id="collapseOne"
-								class="accordion-collapse collapse"
-								data-bs-parent="#gameAppearanceAccordion">
-								<div class="accordion-body">
-									<ul class="list-group">
-									</ul>
-								</div>
+								Games
+							</button>
+						</h2>
+						<div
+							id="collapseOne"
+							class="accordion-collapse collapse"
+							data-bs-parent="#gameAppearanceAccordion">
+							<div class="accordion-body">
+								<ul class="list-group">
+								</ul>
 							</div>
 						</div>
 					</div>
