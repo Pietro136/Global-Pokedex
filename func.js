@@ -91,14 +91,17 @@ async function insertDescription(speciesData)
 
 function getLocalName(speciesData) {return speciesData.names.find(e=>e.language.name===currentLan).name;}
 
-async function renderEvo(evoData, localName)
+async function renderEvo(evoData)
 {	
 
 
 		//console.log("Evoluzioni")
 		evoContainer.innerHTML="";
 		// 1. Render del Pokémon Base (Eevee)
-		await drawPokemon(evoData.chain.species.name, evoContainer, localName);
+
+		speciesDataFirst=await getSpeciesInfo(evoData.chain)
+		localNameFirst=getLocalName(speciesDataFirst)
+		await drawPokemon(evoData.chain.species.name, evoContainer, localNameFirst);
 		/* console.log('draw'); */
 		// 2. Controlliamo le evoluzioni
 		let evoluzioni = evoData.chain.evolves_to;
@@ -210,13 +213,12 @@ async function renderEvo(evoData, localName)
 
 async function searcher(inputV="")
 {	
-	//con gemini 2
-	
-	const suggestionsContainer = document.getElementById('suggestions');
     
+	suggCont = document.getElementById('suggestions');
+
     // Se l'input è vuoto, nascondi la tendina e fermati
     if (inputV.length < 2) {
-        suggestionsContainer.classList.add('d-none');
+        suggCont.classList.add('d-none');
         return;
     }
 
@@ -225,15 +227,15 @@ async function searcher(inputV="")
         const data = await response.json();
         
         // Filtriamo i risultati
-        const matches = data.results.filter(p => 
+        matches = data.results.filter(p => 
             p.name.includes(inputV.toLowerCase())
         ).slice(0, 10); // Mostriamo solo i primi 10 per pulizia
 
         // Puliamo la lista precedente
-        suggestionsContainer.innerHTML = '';
+        suggCont.innerHTML = '';
 
         if (matches.length > 0) {
-            suggestionsContainer.classList.remove('d-none');
+            suggCont.classList.remove('d-none');
             
             matches.forEach(pokemon => {
                 const item = document.createElement('div');
@@ -244,20 +246,41 @@ async function searcher(inputV="")
                 item.onclick = () => {
 					document.getElementById('pokemon-search-input').value = pokemon.name;
                     const IV=document.getElementById('pokemon-search-input');
-                    suggestionsContainer.classList.add('d-none');// 	Chiudi tendina
+                    suggCont.classList.add('d-none');// 	Chiudi tendina
 					console.log(pokemon.name);
                     searchForPokemon(IV); // Avvia la ricerca vera e propria
                 };
                 
-                suggestionsContainer.appendChild(item);
+                suggCont.appendChild(item);
             });
         } else {
-            suggestionsContainer.classList.add('d-none');
+            suggCont.classList.add('d-none');
         }
     } catch (error) {
         console.error("Errore suggerimenti:", error);
     }
 };
+
+function toggleActive()
+{
+	let suggL=matches.length
+	console.log(matches)
+	console.log(suggCont)
+	if(!matches) return false
+	for (let i=0; i<suggL; i++)
+		matches[i].classList.remove("result-active");
+
+	if (focusItem >= suggL) focusItem = 0; // Ricomincia dall'inizio
+    if (focusItem < 0) focusItem = suggL - 1; // Va all'ultimo
+    console.log(suggCont)
+	console.log(focusItem)
+	console.log(suggL)
+    // Aggiunge la classe CSS per evidenziarlo
+    matches[focusItem].classList.add("result-active");
+    
+    // Scroll automatico se ci sono molti risultati
+    matches[focusItem].scrollIntoView({ block: "nearest" });
+}
 
 function playSounds()
 {

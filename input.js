@@ -29,10 +29,6 @@ if (!e.target.closest('.search-container')) {
 	document.getElementById('suggestions').classList.add('d-none');
 }});
 
-inputValue.addEventListener('input', (e) => {
-	searcher(e.target.value);
-});
-
 submitBtn.addEventListener("click", () => {
 	console.log(inputValue.value)
 	searchForPokemon(inputValue);
@@ -104,16 +100,30 @@ legacyBtn.addEventListener("click", ()=>
 	console.log(isLatest)
 	playSounds()
 });
+
 //Per attivare con enter
-document.addEventListener("keydown", processKeyEvent);
 
-function processKeyEvent(e)
+var focusItem=-1
+var matches
+var suggCont
+inputValue.addEventListener('input', (e) => {
+	searcher(e.target.value);
+});
+
+
+inputValue.addEventListener("keydown", function(e)
 {
-	if(e.code=="Enter")
+	if(e.code=="Enter" && inputValue.value!="")
 		searchForPokemon(inputValue);
-}
-//
-
+	if(e.code=="ArrowUp" && inputValue.value.length>2){
+		focusItem--
+		toggleActive()
+	}
+	if(e.code=="ArrowDown" && inputValue.value.length>2){
+		focusItem++
+		toggleActive()
+	}
+});
 
 /*
 for (miniCard of evoCards)

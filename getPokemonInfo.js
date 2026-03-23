@@ -274,7 +274,7 @@ async function getPokemonInfos(inputValue)
 			
 			//Colonna 3
 			const evoData=await getEvoInfo(speciesData);
-			if(evoData.chain.evolves_to.length>0) renderEvo(evoData, localName);
+			if(evoData.chain.evolves_to.length>0) renderEvo(evoData);
 			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
 			
 			insertDescription(speciesData);
