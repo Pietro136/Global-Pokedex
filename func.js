@@ -324,19 +324,18 @@ function playSounds()
 
 async function openAbilityModal(index, data) {
 	const abilityData=await getAbilitiesInfo(data.abilities[index])//Recuperiamo l'url dello specifico elemento
-	console.log(abilityData)
+	console.log(currentType.type.name)
 
-	const entry = abilityData.effect_entries.find(e => e.language.name === currentLan) 
-	const modal = document.getElementById("abilityModal")
-	if (entry) {
-        modal.querySelector(".modal-title").textContent=capitalize(abilityData.name)
-		document.getElementById('abilityText').textContent=entry.effect
-		const bsModal = new bootstrap.Modal(modal);
-        bsModal.show();
+	const entry = abilityData.effect_entries.find(e => e.language.name === currentLan)
 
-    } else {
-        pokeDesc.innerHTML = "Nessuna descrizione disponibile per questa abilità/Lingua";
-    }
+	modal.querySelector(".modal-title").textContent=capitalize(abilityData.name)
+	const header=modal.querySelector(".modal-header")
+
+	header.classList.add(currentType.type.name)
+	if(entry) document.getElementById('abilityText').textContent=entry.effect
+	else document.getElementById('abilityText').textContent="Nessuna descrizione disponibile per questa abilità/Lingua"
+	const bsModal = new bootstrap.Modal(modal);
+	bsModal.show();
 }
 
 

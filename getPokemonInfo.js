@@ -11,15 +11,12 @@ var currentID;
 var currentSprites;
 var currentCry;
 var currentLan;
+var currentType;
 //^^^
 
 var backSprite=false
 var shinySprite=false;
 var isFemale=false;
-
-
-var gameAppearance;
-var pokemonTypes;
 
 var list; //Lista delle versioni di gioco
 var abilityTable;
@@ -41,8 +38,6 @@ var pokeDesc;
 function initialize()
 {
 	//console.log("Qua inizializzo");
-	gameAppearance = [];
-	pokemonTypes=[];
 
 	currentID=0;
 	currentSprites={
@@ -56,6 +51,7 @@ function initialize()
 		legacy: ''
 	}
 	currentLan='en'
+	currentType=''
 	list = document.querySelector(".list-group");
 	abilityTable = document.getElementById('abilityTable');
 	abilityTBody = abilityTable.children[1];
@@ -81,8 +77,6 @@ function restart()
 	if (evoContainer) evoContainer.innerHTML='';
 	
 	//console.log(abilityTable)
-	gameAppearance.length = 0;
-	pokemonTypes.length=0;
 	
     if (cardTitle) cardTitle.textContent = '';
 	
@@ -174,17 +168,14 @@ async function getPokemonInfos(IV)
 			console.log(data.id)
 			*/
 			
-			data.types.forEach(obj => { //Elementi
-				pokemonTypes.push(obj);
-			})
-			pokemonTypes.forEach(type => {
+			data.types.forEach(type => {//Tipi
 				const pokemonType = document.createElement('span');
 				pokemonType.classList.add(`${type.type.name}`);
 				pokemonType.classList.add(`type`);
 				pokemonType.textContent = capitalize(type.type.name);
 				typeContainer.appendChild(pokemonType);
 			})
-			
+			currentType=data.types[0]
 			data.abilities.forEach((obj, index) => { //Abilità
 				const abilityRow = document.createElement('tr');
 				const abilityIndex = document.createElement('td');

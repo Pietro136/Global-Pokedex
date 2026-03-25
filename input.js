@@ -14,7 +14,7 @@ const latestBtn=document.getElementById('latestBtn')
 const legacyBtn=document.getElementById('legacyBtn')
 
 const descBtn=document.getElementById('desc-button')
-
+const modal = document.getElementById("abilityModal")
 var inputValue=document.getElementById('pokemon-search-input')
 
 inputValue.value=''
@@ -125,6 +125,10 @@ inputValue.addEventListener('input', (e) => {
 	searcher(e.target.value);
 });
 
+modal.addEventListener('hidden.bs.modal',()=>{
+	const header=modal.querySelector(".modal-header")
+	header.classList.remove(currentType.type.name)
+})
 
 document.addEventListener("keydown", function(e)
 {
