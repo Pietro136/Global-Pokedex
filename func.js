@@ -1,14 +1,24 @@
 // <<<<<<< HEAD
 function searchForPokemon(IV)
 {
-	const val=IV.value;
+	// Questa funzione verrà chiamata in vari pezzi
+	// di codice, la vogliamo rendere dinamica per più tipi di parametri
+	let val
+	if(IV instanceof String || typeof IV==='string') {
+		console.log("It's a string")
+		val=IV
+	}	
+	else{
+		console.log("Not a string")
+		val=IV.value;
+	}
+
 	const hasLetters=/[a-zA-Z]/.test(val);
 	const hasNumbers=/^[0-9]+$/.test(val);
 	if( val.trim()!=="" && (hasLetters || hasNumbers) && (val<=20000 || hasLetters)) //controllo se il valore è accettabile
 	{
 		//console.log(IV.value)
-		getPokemonInfos(IV.value);
-		IV.value='';
+		getPokemonInfos(val);
 	}
 	else
 		alert("Inserire almeno una lettera")

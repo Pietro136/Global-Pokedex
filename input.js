@@ -113,8 +113,26 @@ inputValue.addEventListener('input', (e) => {
 
 inputValue.addEventListener("keydown", function(e)
 {
-	if(e.code=="Enter" && inputValue.value!="")
-		searchForPokemon(inputValue);
+	if(e.code=="Enter" && inputValue.value!=""){
+		try{
+			let isSugg=false
+			let item
+			const suggL=document.getElementById('suggestions').getElementsByClassName('suggestion-item');
+
+			for (let i=0; i<suggL.length; i++)
+				if (suggL[i].classList.contains("suggestion-item-active")){
+					isSugg=true
+					item=suggL[i].textContent
+				}
+			console.log(item)
+			if(isSugg) searchForPokemon(item);
+			else searchForPokemon(inputValue)
+		} catch (e){
+			console.log(e)
+		} 
+		
+	}
+		
 	if(e.code=="ArrowUp" && inputValue.value.length>2){
 		focusItem--
 		toggleActive()
