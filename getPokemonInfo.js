@@ -177,7 +177,6 @@ async function getPokemonInfos(IV)
 			data.types.forEach(obj => { //Elementi
 				pokemonTypes.push(obj);
 			})
-			
 			pokemonTypes.forEach(type => {
 				const pokemonType = document.createElement('span');
 				pokemonType.classList.add(`${type.type.name}`);
@@ -191,13 +190,23 @@ async function getPokemonInfos(IV)
 				const abilityIndex = document.createElement('td');
 				const abilityName = document.createElement('td');
 				const abilityHidden = document.createElement('td');
+				const abilityInfo=document.createElement('td');
 				abilityIndex.textContent = index + 1;
 				abilityName.textContent = capitalize(obj.ability.name);
 				abilityHidden.textContent = capitalize(String(obj.is_hidden))
+				abilityInfo.innerHTML = `<button
+											class="btn btn-info fa-solid fa-info btn-sm rounded-3"
+											type="submit"
+											id="ability-info-${index+1}">
+										</button>`
 				abilityTBody.appendChild(abilityRow);
 				abilityRow.appendChild(abilityIndex);
 				abilityRow.appendChild(abilityName);
 				abilityRow.appendChild(abilityHidden);
+				abilityRow.appendChild(abilityInfo);
+
+				const infoBtn=document.getElementById("ability-info-"+(index+1))
+				infoBtn.onclick = () => openAbilityModal(index, data);
 			});
 			
 			data.game_indices.forEach(obj => //Giochi/Versioni in cui appaiono

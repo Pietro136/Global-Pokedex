@@ -22,12 +22,12 @@ var isBlur
 
 inputValue.addEventListener('focus', ()=>{
 	isBlur=true
-	console.log(isBlur)
+	/* console.log(isBlur) */
 })
 
 inputValue.addEventListener('blur', ()=>{
 	isBlur=false
-	console.log(isBlur)
+	/* console.log(isBlur) */
 })
 
 langChoice.addEventListener('change', (e) => {
@@ -56,15 +56,6 @@ nextBtn.addEventListener("click", () => {
 	getPokemonInfos(currentID+1) //indietro
 });
 
-
-shinyBtn.addEventListener("click", ()=>
-{
-	shinySprite=!shinySprite;//Cambia la rarità!
-	console.log("shiny: ",shinySprite);
-	switchSprite();
-	shinyBtn.classList.toggle("btn-warning");
-});
-
 spriteImg.addEventListener("click", () => {
     backSprite=!backSprite; // Inverte la vista (davanti/dietro)
     console.log("back: ",backSprite);
@@ -89,6 +80,16 @@ spriteImg.addEventListener("click", () => {
 		spriteImg.style.transition="transform 0s";
 		spriteImg.classList.toggle("rotated");
 	}, 250);
+});
+
+
+
+shinyBtn.addEventListener("click", ()=>
+{
+	shinySprite=!shinySprite;//Cambia la rarità!
+	console.log("shiny: ",shinySprite);
+	switchSprite();
+	shinyBtn.classList.toggle("btn-warning");
 });
 
 genderBtn.addEventListener("click", ()=>

@@ -62,7 +62,7 @@
 		</div>
 	</div>
 	
-	<div class="card d-none w-auto margin-mobile" id="pokemonDescription" style="max-width: 900px;"> 
+	<div class="card d-none w-auto margin-mobile" id="pokemonDescription"> 
 
 		<div class="d-flex card-header bg-primary justify-content-between">
 			<div class="text-white"><h5 class="card-title m-0"></h5></div>
@@ -81,7 +81,7 @@
 		</div>
     
 		<div class="row g-0">
-			<div class="col-12 col-md-3 border-responsive"> <!--Prima Colonna -->
+			<div class="col-12 col-sm-8 col-md-4 border-responsive"> <!--Prima Colonna -->
 				<div class="img-container sprite-container text-center p-3">
 					<img src="" id="pokemon-sprite-img" class="img-fluid clickable-pokemon" alt="Pokemon Sprite">
 					<div id="sparkle-container"></div>
@@ -97,6 +97,7 @@
 									<th scope="col">#</th>
 									<th scope="col">Ability</th>
 									<th scope="col">Hidden</th>
+									<th scope="col">Info</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -127,7 +128,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-3 p-3 border-responsive"> <!-- Seconda colonna -->
+			<div class="col-12 col-sm-4 col-md-2 p-3 border-responsive"> <!-- Seconda colonna -->
 				<div class="d-flex flex-column justify-content-between" id="pokemonStats">
 					<h6 class="fw-bold mb-3">Statistiche di base</h6>
 				</div>
@@ -142,7 +143,7 @@
 					<audio id="playCry" src=""></audio>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 bg-light p-3"> <!-- Terza colonna-->
+			<div class="col-12 col-sm-12 col-md-6 bg-light p-3"> <!-- Terza colonna-->
 				<div class="d-flex justify-content-between">
 					<div><h5 class="fw-bold" id="evTitle">Catena di evoluzione</h5></div>
 					<div class="justify-content-end">
@@ -165,7 +166,7 @@
 						<p class="fst-italic" id="pokeDescription"></p> 
 					</div>
 					<button
-						class="btn btn-primary  fa-solid fa-info"
+						class="btn btn-info fa-solid fa-info"
 						type="submit"
 						id="desc-button">
 					</button>
@@ -175,7 +176,19 @@
 		</div>
 	</div>
 </main>
-
+<div class="modal fade" id="abilityModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title fw-bold" id="abilityTitle">Nome Abilità</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p id="abilityText" class="text-muted">Caricamento...</p>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="input.js"></script>
 <script src="getPokemonInfo.js"></script>
 <script src="func.js"></script>

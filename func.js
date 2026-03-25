@@ -81,6 +81,10 @@ async function getEvoInfo(speciesData) {
     return await getJsonData(speciesData.evolution_chain.url);
 }
 
+async function getAbilitiesInfo(index) {
+    return await getJsonData(index.ability.url);
+}
+
 async function insertDescription(speciesData)
 {
 	//console.log(descData);
@@ -95,7 +99,7 @@ async function insertDescription(speciesData)
 
         pokeDesc.innerHTML = cleanDesc;
     } else {
-        pokeDesc.innerHTML = "Nessuna descrizione disponibile per questo Pokémon.";
+        pokeDesc.innerHTML = "Nessuna descrizione disponibile per questo Pokemon/Lingua.";
     }
 }
 
@@ -164,7 +168,7 @@ async function renderEvo(evoData)
 					</div>
 				`;
 				speciesData=await getSpeciesInfo(evo)
-				console.log(speciesData)
+				/* console.log(speciesData) */
 				localNameEvo=getLocalName(speciesData)
 				// Disegniamo il Pokémon evoluto dentro il wrapper
 				await drawPokemon(evo.species.name, wrapper, localNameEvo);
@@ -317,6 +321,24 @@ function playSounds()
 	console.log("Riproduzione automatica bloccata...");
 	});//Catturiamo un possibile errore di caricamento audio
 }
+
+async function openAbilityModal(index, data) {
+	const abilityData=await getAbilitiesInfo(data.abilities[index])//Recuperiamo l'url dello specifico elemento
+	console.log(abilityData)
+
+	const entry = abilityData.effect_entries.find(e => e.language.name === currentLan) 
+	const modal = document.getElementById("abilityModal")
+	if (entry) {
+        modal.querySelector(".modal-title").textContent=capitalize(abilityData.name)
+		document.getElementById('abilityText').textContent=entry.effect
+		const bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+
+    } else {
+        pokeDesc.innerHTML = "Nessuna descrizione disponibile per questa abilità/Lingua";
+    }
+}
+
 
 function spaceReplace(str)
 {
