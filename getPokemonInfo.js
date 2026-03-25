@@ -115,25 +115,25 @@ function restart()
 }
 
 //!!!!!!! non mettere EventListener qui dentro
-async function getPokemonInfos(inputValue)	
+async function getPokemonInfos(IV)	
 {
 	document.getElementById('suggestions').classList.add('d-none'); //Nasconde i suggerimenti quando la ricerca inizia
+	inputValue.value=''
 	if (firstTry) {
         initialize();
     } else {
         restart();
     }
-	
-	if(!/\d/.test(inputValue)) inputValue=inputValue.toLowerCase();
+	if(!/\d/.test(IV)) IV=IV.toLowerCase();
 	
 	try
 	{
-	const response =await fetch(API_URL+"/pokemon/"+inputValue);  //<- IMPORTANTE
+	const response =await fetch(API_URL+"/pokemon/"+IV);  //<- IMPORTANTE
 	if (!response.ok) {
 		if (response.status === 404) {
-			//throw new Error(`Error: ${response.status} - ${inputValue} is
+			//throw new Error(`Error: ${response.status} - ${IV} is
 			//not a valid Pokémon`);
-			//searcher(inputValue)
+			//searcher(IV)
 		} else {
 		throw new Error("HTTP error! Status: "+response.status);
 		}

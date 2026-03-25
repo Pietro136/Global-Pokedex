@@ -291,12 +291,12 @@ function toggleActive()
     if (focusItem < 0) focusItem = suggL.length - 1; // Va all'ultimo
 
 	// Evidenzia l'elemento
-	console.log(suggL)
+	/* console.log(suggL) */
     const active = suggL[focusItem];
     active.classList.add("suggestion-item-active");
     active.scrollIntoView({ block: "nearest" }); //Scroll automatico
 
-    console.log(focusItem)
+    /* console.log(focusItem) */
 }
 
 function playSounds()

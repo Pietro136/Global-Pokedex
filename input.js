@@ -1,4 +1,3 @@
-const inputValue=document.getElementById('pokemon-search-input')
 const submitBtn=document.getElementById('submit-button')
 
 const langChoice=document.getElementById('lang-select')
@@ -15,6 +14,21 @@ const latestBtn=document.getElementById('latestBtn')
 const legacyBtn=document.getElementById('legacyBtn')
 
 const descBtn=document.getElementById('desc-button')
+
+var inputValue=document.getElementById('pokemon-search-input')
+
+inputValue.value=''
+var isBlur
+
+inputValue.addEventListener('focus', ()=>{
+	isBlur=true
+	console.log(isBlur)
+})
+
+inputValue.addEventListener('blur', ()=>{
+	isBlur=false
+	console.log(isBlur)
+})
 
 langChoice.addEventListener('change', (e) => {
     currentLan = e.target.value;
@@ -111,7 +125,7 @@ inputValue.addEventListener('input', (e) => {
 });
 
 
-inputValue.addEventListener("keydown", function(e)
+document.addEventListener("keydown", function(e)
 {
 	if(e.code=="Enter" && inputValue.value!=""){
 		try{
@@ -133,14 +147,16 @@ inputValue.addEventListener("keydown", function(e)
 		
 	}
 		
-	if(e.code=="ArrowUp" && inputValue.value.length>2){
+	if(e.code=="ArrowUp" && inputValue.value.length>=2){
 		focusItem--
 		toggleActive()
 	}
-	if(e.code=="ArrowDown" && inputValue.value.length>2){
+	if(e.code=="ArrowDown" && inputValue.value.length>=2){
 		focusItem++
 		toggleActive()
 	}
+	if(e.code=="ArrowLeft" && !firstTry && !isBlur) getPokemonInfos(currentID-1)
+	if(e.code=="ArrowRight" && !firstTry && !isBlur) getPokemonInfos(currentID+1)
 });
 
 /*
