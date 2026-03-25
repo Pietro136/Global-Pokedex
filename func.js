@@ -214,7 +214,7 @@ async function renderEvo(evoData)
 async function searcher(inputV="")
 {	
     
-	suggCont = document.getElementById('suggestions');
+	const suggCont = document.getElementById('suggestions');
 
     // Se l'input è vuoto, nascondi la tendina e fermati
     if (inputV.length < 2) {
@@ -227,12 +227,13 @@ async function searcher(inputV="")
         const data = await response.json();
         
         // Filtriamo i risultati
-        matches = data.results.filter(p => 
+        const matches = data.results.filter(p => 
             p.name.includes(inputV.toLowerCase())
         ).slice(0, 10); // Mostriamo solo i primi 10 per pulizia
 
         // Puliamo la lista precedente
         suggCont.innerHTML = '';
+		focusItem=-1
 
         if (matches.length > 0) {
             suggCont.classList.remove('d-none');
@@ -244,10 +245,10 @@ async function searcher(inputV="")
                 
                 // Quando l'utente clicca su un suggerimento:
                 item.onclick = () => {
-					document.getElementById('pokemon-search-input').value = pokemon.name;
-                    const IV=document.getElementById('pokemon-search-input');
+					const IV=document.getElementById('pokemon-search-input');
+					IV.value = pokemon.name;
                     suggCont.classList.add('d-none');// 	Chiudi tendina
-					console.log(pokemon.name);
+					/* console.log(pokemon.name); */
                     searchForPokemon(IV); // Avvia la ricerca vera e propria
                 };
                 
@@ -261,25 +262,31 @@ async function searcher(inputV="")
     }
 };
 
+
 function toggleActive()
 {
-	let suggL=matches.length
-	console.log(matches)
-	console.log(suggCont)
-	if(!matches) return false
-	for (let i=0; i<suggL; i++)
-		matches[i].classList.remove("result-active");
+	const suggL=document.getElementById('suggestions').getElementsByClassName('suggestion-item');
+	/* console.log(matches)
+	console.log(suggCont) */
 
-	if (focusItem >= suggL) focusItem = 0; // Ricomincia dall'inizio
-    if (focusItem < 0) focusItem = suggL - 1; // Va all'ultimo
-    console.log(suggCont)
-	console.log(focusItem)
+	//Se non ci sono items esco dalla funzione
+	if(suggL.length===0) return 
+
+	//Inizio togliendo l'active da tutti
+	for (let i=0; i<suggL.length; i++)
+		suggL[i].classList.remove("suggestion-item-active");
+
+	//Calcolo un giro
+	if (focusItem >= suggL.length) focusItem = 0; // Ricomincia dall'inizio
+    if (focusItem < 0) focusItem = suggL.length - 1; // Va all'ultimo
+
+	// Evidenzia l'elemento
 	console.log(suggL)
-    // Aggiunge la classe CSS per evidenziarlo
-    matches[focusItem].classList.add("result-active");
-    
-    // Scroll automatico se ci sono molti risultati
-    matches[focusItem].scrollIntoView({ block: "nearest" });
+    const active = suggL[focusItem];
+    active.classList.add("suggestion-item-active");
+    active.scrollIntoView({ block: "nearest" }); //Scroll automatico
+
+    console.log(focusItem)
 }
 
 function playSounds()

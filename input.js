@@ -103,9 +103,9 @@ legacyBtn.addEventListener("click", ()=>
 
 //Per attivare con enter
 
-var focusItem=-1
-var matches
-var suggCont
+var focusItem
+/* var matches */
+/* var suggCont */
 inputValue.addEventListener('input', (e) => {
 	searcher(e.target.value);
 });
