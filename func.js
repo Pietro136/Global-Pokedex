@@ -85,6 +85,10 @@ async function getAbilitiesInfo(index) {
     return await getJsonData(index.ability.url);
 }
 
+async function getMovesInfo(index) {
+    return await getJsonData(index.move.url);
+}
+
 async function insertDescription(speciesData)
 {
 	//console.log(descData);
@@ -324,20 +328,46 @@ function playSounds()
 
 async function openAbilityModal(index, data) {
 	const abilityData=await getAbilitiesInfo(data.abilities[index])//Recuperiamo l'url dello specifico elemento
-	console.log(currentType.type.name)
 
 	const entry = abilityData.effect_entries.find(e => e.language.name === currentLan)
 
-	modal.querySelector(".modal-title").textContent=capitalize(abilityData.name)
-	const header=modal.querySelector(".modal-header")
+	let title=document.getElementById("abilityTitle")
+	title.textContent=capitalize(abilityData.name)
+	const header=document.getElementById("abilityHeader")
 
 	header.classList.add(currentType.type.name)
 	if(entry) document.getElementById('abilityText').textContent=entry.effect
 	else document.getElementById('abilityText').textContent="Nessuna descrizione disponibile per questa abilità/Lingua"
-	const bsModal = new bootstrap.Modal(modal);
+	const bsModal = new bootstrap.Modal(modalAbility);
 	bsModal.show();
 }
 
+async function openMoveModal(index, data) {
+	const moveData=await getMovesInfo(data.moves[index])//Recuperiamo l'url dello specifico elemento
+	
+	console.log(moveData.type.name)
+	const entry = moveData.effect_entries.find(e => e.language.name === currentLan)
+	let title=document.getElementById("moveTitle")
+	title.textContent=capitalize(moveData.name)
+	let clss=document.getElementById("moveClass")
+	let power=document.getElementById("movePower")
+	let acc=document.getElementById("moveAccuracy")
+	let pp=document.getElementById("movePP")
+
+	clss.textContent=capitalize(moveData.damage_class.name)
+	if(moveData.power!==null)power.textContent=moveData.power
+	if(moveData.damage_class.name!=="status") acc.textContent=moveData.accuracy
+	pp.textContent=moveData.pp
+	
+
+	const header=document.getElementById("moveHeader")
+
+	header.classList.add(moveData.type.name)
+	if(entry) document.getElementById('moveText').textContent=entry.effect
+	else document.getElementById('moveText').textContent="Nessuna descrizione disponibile per questa abilità/Lingua"
+	const bsModal = new bootstrap.Modal(modalMove);
+	bsModal.show();
+}
 
 function spaceReplace(str)
 {

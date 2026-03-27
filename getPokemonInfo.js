@@ -18,7 +18,9 @@ var backSprite=false
 var shinySprite=false;
 var isFemale=false;
 
-var list; //Lista delle versioni di gioco
+var listVersion; //Lista delle versioni di gioco
+var listMoves; //Lista mosse
+
 var abilityTable;
 var abilityTBody;
 var typeContainer;
@@ -52,7 +54,8 @@ function initialize()
 	}
 	currentLan='en'
 	currentType=''
-	list = document.querySelector(".list-group");
+	listVersion = document.getElementById("list-group-version");
+	listMoves = document.getElementById("list-group-moves");
 	abilityTable = document.getElementById('abilityTable');
 	abilityTBody = abilityTable.children[1];
 	typeContainer=document.querySelector(".type-container");
@@ -71,7 +74,8 @@ function restart()
 	console.log("Restart")
 	if (typeContainer) typeContainer.innerHTML = '';
 	if (abilityTBody) abilityTBody.innerHTML = '';
-	if (list) list.innerHTML = '';
+	if (listVersion) listVersion.innerHTML = '';
+	if (listMoves) listMoves.innerHTML = '';
 	if (statCont) statCont.innerHTML='';
 	if (evoTitle) evoTitle.innerHTML="Catena di evoluzione";
 	if (evoContainer) evoContainer.innerHTML='';
@@ -167,7 +171,9 @@ async function getPokemonInfos(IV)
 			console.log(data.height)
 			console.log(data.id)
 			*/
-			
+			console.log(listVersion)
+			console.log(listMoves)
+
 			data.types.forEach(type => {//Tipi
 				const pokemonType = document.createElement('span');
 				pokemonType.classList.add(`${type.type.name}`);
@@ -204,16 +210,16 @@ async function getPokemonInfos(IV)
 			{
 				let version=obj.version.name;
 				version=capitalize(version);
-				if (version.includes("-"))
-					version=spaceReplace(version);
+				if (version.includes("-")) version=spaceReplace(version);
 				//console.log(version);
 				
 				let li=document.createElement("li")
 				li.classList.add("list-group-item")
+				li.classList.add("col-6")
 				
 				let nodeT=document.createTextNode(version);
 				li.appendChild(nodeT);
-				list.appendChild(li);
+				listVersion.appendChild(li);
 			})
 			
 			//Colonna 2
@@ -270,6 +276,34 @@ async function getPokemonInfos(IV)
 			currentCry.latest=data.cries.latest //Diamo i valori ad un oggetto globale
 			currentCry.legacy=data.cries.legacy
 			
+			const moves=data.moves;
+			moves.forEach((move, index) => //Mosse imparabili
+			{
+				let moveName=move.move.name;
+				moveName=capitalize(moveName);
+				if (moveName.includes("-")) moveName=spaceReplace(moveName);
+				//console.log(version);
+				
+				let liMove=document.createElement("li")
+				liMove.classList.add("list-group-item")
+				liMove.classList.add("col-4")
+				liMove.innerHTML = `${moveName}`
+				let liBtn=document.createElement("li")
+				liBtn.classList.add("list-group-item")
+				liBtn.classList.add("col-2")
+				
+				liBtn.innerHTML=`<button
+									class="btn btn-info fa-solid fa-info btn-sm rounded-3 me-3"
+									type="submit"
+									id="move-info-${index+1}">
+								</button>`
+				listMoves.appendChild(liMove);
+				listMoves.appendChild(liBtn);
+
+				const infoBtn=document.getElementById("move-info-"+(index+1))
+				infoBtn.onclick = () => openMoveModal(index, data);
+			})
+
 			/* playSounds(); */
 			
 			//Colonna 3

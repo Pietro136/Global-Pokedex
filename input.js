@@ -14,7 +14,9 @@ const latestBtn=document.getElementById('latestBtn')
 const legacyBtn=document.getElementById('legacyBtn')
 
 const descBtn=document.getElementById('desc-button')
-const modal = document.getElementById("abilityModal")
+
+const modalAbility = document.getElementById("abilityModal")
+const modalMove = document.getElementById("moveModal")
 var inputValue=document.getElementById('pokemon-search-input')
 
 inputValue.value=''
@@ -125,11 +127,13 @@ inputValue.addEventListener('input', (e) => {
 	searcher(e.target.value);
 });
 
-modal.addEventListener('hidden.bs.modal',()=>{
-	const header=modal.querySelector(".modal-header")
+modalAbility.addEventListener('hidden.bs.modal',()=>{
+	const header=document.getElementById("abilityHeader")
 	header.classList.remove(currentType.type.name)
 })
-
+modalMove.addEventListener('hidden.bs.modal',()=>{
+	const header=document.getElementById("moveHeader")
+})
 document.addEventListener("keydown", function(e)
 {
 	if(e.code=="Enter" && inputValue.value!=""){

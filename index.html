@@ -103,6 +103,29 @@
 							<tbody></tbody>
 						</table>
 					</div>
+					<div class="accordion accordion-item my-3" id="movesAccordion">
+					<h2 class="accordion-header">
+						<button
+							class="accordion-button"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#collapseTwo"
+							aria-expanded="false"
+							aria-controls="collapseOne">
+
+							Learned Moves
+						</button>
+					</h2>
+					<div
+						id="collapseTwo"
+						class="accordion-collapse collapse"
+						data-bs-parent="#movesAccordion">
+						<div class="accordion-body">
+							<ul class="list-group d-flex flex-row flex-wrap justify-content-start" id="list-group-moves">
+							</ul>
+						</div>
+					</div>
+					</div>
 					<div class="accordion accordion-item" id="gameAppearanceAccordion">
 						<h2 class="accordion-header">
 							<button
@@ -121,7 +144,7 @@
 							class="accordion-collapse collapse"
 							data-bs-parent="#gameAppearanceAccordion">
 							<div class="accordion-body">
-								<ul class="list-group">
+								<ul class="list-group d-flex flex-row flex-wrap justify-content-start" id="list-group-version">
 								</ul>
 							</div>
 						</div>
@@ -179,12 +202,65 @@
 <div class="modal fade" id="abilityModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow-lg">
-      <div class="modal-header text-white">
+      <div class="modal-header text-white" id="abilityHeader">
         <h5 class="modal-title fw-bold" id="abilityTitle">Nome Abilità</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-4">
         <p id="abilityText" class="text-muted">Caricamento...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="moveModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header text-white" id="moveHeader">
+        <h5 class="modal-title fw-bold" id="moveTitle">Nome Abilità</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p id="moveText" class="text-muted">Caricamento...</p>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="moveModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div id="moveHeader" class="modal-header text-white">
+        <h5 class="modal-title fw-bold" id="moveTitle">Nome Mossa</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="d-flex justify-content-around mb-4 text-center">
+            <div>
+                <small class="text-muted d-block text-uppercase fw-bold">Classe</small>
+                <span id="moveClass" class="badge rounded-pill bg-dark">--</span>
+            </div>
+            <div>
+                <small class="text-muted d-block text-uppercase fw-bold">Potenza</small>
+                <span id="movePower" class="fw-bold fs-5">--</span>
+            </div>
+            <div>
+                <small class="text-muted d-block text-uppercase fw-bold">Precisione</small>
+                <span id="moveAccuracy" class="fw-bold fs-5">--</span>
+            </div>
+            <div>
+                <small class="text-muted d-block text-uppercase fw-bold">PP</small>
+                <span id="movePP" class="fw-bold fs-5">--</span>
+            </div>
+        </div>
+
+        <hr class="text-muted">
+
+        <div class="p-2">
+            <h6 class="fw-bold mb-2">Effetto:</h6>
+            <p id="moveText" class="text-secondary lh-base">Descrizione della mossa...</p>
+        </div>
       </div>
     </div>
   </div>
