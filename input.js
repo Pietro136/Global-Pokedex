@@ -129,10 +129,11 @@ inputValue.addEventListener('input', (e) => {
 
 modalAbility.addEventListener('hidden.bs.modal',()=>{
 	const header=document.getElementById("abilityHeader")
-	header.classList.remove(currentType.type.name)
+	header.classList.remove(currentType)
 })
 modalMove.addEventListener('hidden.bs.modal',()=>{
 	const header=document.getElementById("moveHeader")
+	header.classList.remove(currentMoveType)
 })
 document.addEventListener("keydown", function(e)
 {

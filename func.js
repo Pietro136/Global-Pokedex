@@ -335,16 +335,17 @@ async function openAbilityModal(index, data) {
 	title.textContent=capitalize(abilityData.name)
 	const header=document.getElementById("abilityHeader")
 
-	header.classList.add(currentType.type.name)
+	header.classList.add(currentType)
 	if(entry) document.getElementById('abilityText').textContent=entry.effect
 	else document.getElementById('abilityText').textContent="Nessuna descrizione disponibile per questa abilità/Lingua"
+
 	const bsModal = new bootstrap.Modal(modalAbility);
 	bsModal.show();
 }
 
 async function openMoveModal(index, data) {
 	const moveData=await getMovesInfo(data.moves[index])//Recuperiamo l'url dello specifico elemento
-	
+	currentMoveType=moveData.type.name
 	console.log(moveData.type.name)
 	const entry = moveData.effect_entries.find(e => e.language.name === currentLan)
 	let title=document.getElementById("moveTitle")
@@ -362,9 +363,26 @@ async function openMoveModal(index, data) {
 
 	const header=document.getElementById("moveHeader")
 
-	header.classList.add(moveData.type.name)
+	header.classList.add(currentMoveType)
 	if(entry) document.getElementById('moveText').textContent=entry.effect
 	else document.getElementById('moveText').textContent="Nessuna descrizione disponibile per questa abilità/Lingua"
+
+	const pokemonMoveEntry = data.moves[index];
+
+	const lastVersion = pokemonMoveEntry.version_group_details.slice(-1)[0];
+	const method = lastVersion.move_learn_method.name; // es: 'level-up', 'machine', 'egg'
+    const level = lastVersion.level_learned_at;
+
+	let methodText = "";
+    switch(method) {
+        case 'level-up': methodText = `Level ${level}`; break;
+        case 'machine':  methodText = "MT / MN"; break;
+        case 'egg':      methodText = "Eggs"; break;
+        case 'tutor':    methodText = "Tutor"; break;
+        default:         methodText = capitalize(method.replace('-', ' '));
+    }
+
+	document.getElementById("moveLearnMethod").textContent = `Metodo: ${methodText}`;
 	const bsModal = new bootstrap.Modal(modalMove);
 	bsModal.show();
 }

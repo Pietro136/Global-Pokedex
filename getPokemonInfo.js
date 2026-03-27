@@ -12,6 +12,7 @@ var currentSprites;
 var currentCry;
 var currentLan;
 var currentType;
+var currentMoveType
 //^^^
 
 var backSprite=false
@@ -54,6 +55,7 @@ function initialize()
 	}
 	currentLan='en'
 	currentType=''
+	currentMoveType=''
 	listVersion = document.getElementById("list-group-version");
 	listMoves = document.getElementById("list-group-moves");
 	abilityTable = document.getElementById('abilityTable');
@@ -181,7 +183,7 @@ async function getPokemonInfos(IV)
 				pokemonType.textContent = capitalize(type.type.name);
 				typeContainer.appendChild(pokemonType);
 			})
-			currentType=data.types[0]
+			currentType=data.types[0].type.name
 			data.abilities.forEach((obj, index) => { //Abilità
 				const abilityRow = document.createElement('tr');
 				const abilityIndex = document.createElement('td');
