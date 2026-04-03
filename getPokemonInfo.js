@@ -19,8 +19,13 @@ var backSprite=false
 var shinySprite=false;
 var isFemale=false;
 
+var megaCount=0;
+
+var variantAcc
+
 var listVersion; //Lista delle versioni di gioco
 var listMoves; //Lista mosse
+var listVariants;
 
 var abilityTable;
 var abilityTBody;
@@ -58,6 +63,7 @@ function initialize()
 	currentMoveType=''
 	listVersion = document.getElementById("list-group-version");
 	listMoves = document.getElementById("list-group-moves");
+	listVariants=document.getElementById("list-group-variants");
 	abilityTable = document.getElementById('abilityTable');
 	abilityTBody = abilityTable.children[1];
 	typeContainer=document.querySelector(".type-container");
@@ -69,10 +75,13 @@ function initialize()
 	evoTitle=document.getElementById('evTitle');
 	evoContainer=document.getElementById("evolutionChain");
 	pokeDesc=document.getElementById("pokeDescription");
+
+	variantAcc=document.getElementById("variantAccordion");
 }
 
 function restart()
 {
+	console.clear()//Puliamo la console
 	console.log("Restart")
 	if (typeContainer) typeContainer.innerHTML = '';
 	if (abilityTBody) abilityTBody.innerHTML = '';
@@ -94,6 +103,7 @@ function restart()
 	backSprite=false;
 	isFemale=false;
 	isLatest=true;
+	megaCount=0;
 	
 	if(!genderBtn.classList.contains('d-none')) 
 		//Cancelliamo gli sprite extra se non servono
@@ -108,6 +118,7 @@ function restart()
 		delete currentSprites.front_shiny_female;
 		delete currentSprites.back_shiny_female;
 	}
+	if(!variantAcc.classList.contains('d-none')) variantAcc.classList.add('d-none')
 	if(latestBtn.classList.contains('d-none')) latestBtn.classList.remove('d-none')
 	if(legacyBtn.classList.contains('d-none')) legacyBtn.classList.remove('d-none')
 	if(prevBtn.classList.contains('d-none')) prevBtn.classList.remove('d-none')
@@ -237,11 +248,19 @@ async function getPokemonInfos(IV)
 				
 				const statW=document.createElement('div')
 				statW.classList.add("mb-2");
-				
-				
+				let statImg
+				if(statName==="hp") statImg="heart"
+				if(statName==="attack") statImg="burst"
+				if(statName==="defense") statImg="shield"
+				if(statName==="special attack") statImg="ring"
+				if(statName==="special defense") statImg="shield-halved"
+				if(statName==="speed") statImg="bolt"
 				statW.innerHTML=`
 				<div class="d-flex justify-content-between mb-1" style="font-size: 0.9rem;">
+					<div>
 					<span class="text-uppercase fw-bold">${statName}</span>
+					<i class="fa-solid fa-${statImg}"></i>
+					</div>
 					<span class="fw-bold">${statValue}</span>
 				</div>
 				<div class="progress" style="height: 8px; background-color: #e9ecef;">
@@ -305,17 +324,28 @@ async function getPokemonInfos(IV)
 				const infoBtn=document.getElementById("move-info-"+(index+1))
 				infoBtn.onclick = () => openMoveModal(index, data);
 			})
+			
 
 			/* playSounds(); */
 			
 			//Colonna 3
+			const variants=speciesData.varieties
+			if(variants.length>1) variantAcc.classList.remove('d-none')
+			variants.forEach(variant=>{
+				if(/mega/.test(variant.pokemon.name)){
+					hasMega=true
+					megaCount+=1;
+				}
+					
+			})
+
 			const evoData=await getEvoInfo(speciesData);
-			if(evoData.chain.evolves_to.length>0) renderEvo(evoData);
+			if(evoData.chain.evolves_to.length>0) renderEvo(speciesData, evoData, megaCount);
 			else evoTitle.innerHTML=`${capitalize(data.name)} non ha evoluzioni`;
 			
 			insertDescription(speciesData);
 
-			console.log(speciesData.varieties)
+			
 			
 			
 	}

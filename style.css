@@ -51,6 +51,8 @@ header
     width: 100%;
     height: auto;
     image-rendering: pixelated; /* Mantiene i bordi dei Pokémon definiti anche se ingranditi */
+
+    /* clip-path: inset(15% 15% 15% 15%);  */
 }
 .female-btn {background-color: pink;}
 .male-btn {background-color: blue; color: white}
@@ -75,27 +77,14 @@ header
 	}
 } */
 
-/* #movesAccordion .accordion-body ul {
-    display: grid !important;
-
-    grid-template-columns: repeat(3, 1fr) !important; 
-    gap: 0; 
-    padding: 0;
-    list-style: none;
-    border: 1px solid #dee2e6; 
+#variantAccordion .accordion-button {
+    padding: 0.5rem 1rem; /* Bootstrap di base usa 1rem 1.25rem */
+    font-size: 0.9rem;    /* Opzionale: rimpicciolisce anche il testo */
 }
 
-#movesAccordion .list-group-item {
-    
-    border: 1px solid #dee2e6 !important;
-    margin: -0.5px; 
-    width: auto !important; 
-    text-align: center;
-    padding: 10px 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
+#variantAccordion .accordion-collapse {
+    position: absolute;
+}
 
 #pokeDescription {
     padding: 15px;

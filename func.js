@@ -88,6 +88,9 @@ async function getAbilitiesInfo(index) {
 async function getMovesInfo(index) {
     return await getJsonData(index.move.url);
 }
+async function getVariantsInfo(varieties,index){
+	return await getJsonData(varieties[index].pokemon.url)
+}
 
 async function insertDescription(speciesData)
 {
@@ -109,10 +112,8 @@ async function insertDescription(speciesData)
 
 function getLocalName(speciesData) {return speciesData.names.find(e=>e.language.name===currentLan).name;}
 
-async function renderEvo(evoData)
+async function renderEvo(speciesData, evoData,megaCount)
 {	
-
-
 		//console.log("Evoluzioni")
 		evoContainer.innerHTML="";
 		// 1. Render del Pokémon Base (Eevee)
@@ -135,7 +136,7 @@ async function renderEvo(evoData)
 
 			for (const evo of evoluzioni) {
 				// Per ogni evoluzione (Vaporeon, Jolteon, ecc.) per la maggior parte dei pokemon si itera 1 volta
-				const wrapper = document.createElement('div');
+				const wrapper = document.createElement('div');//wrapper contiene un solo pokemon
 				wrapper.className = 'd-flex align-items-center m-2 p-2';
 				
 				/*// Aggiungiamo la freccia compatta con il requisito
@@ -184,6 +185,26 @@ async function renderEvo(evoData)
 				}
 			}
 		evoluzioni=nextIter;
+		}
+		if(megaCount>0){
+			const megaBranch=document.createElement('div');
+			megaBranch.className = 'border rounded d-flex flex-wrap justify-content-center align-items-center mt-3';
+			evoContainer.appendChild(megaBranch);
+			for (let i=1; i<=megaCount; i++)
+			{
+				console.log("Mega n. : "+i);
+				const megaWrap=document.createElement('div');
+				megaWrap.className = 'd-flex align-items-center m-2 p-2';
+				megaWrap.innerHTML = `
+					<div class="d-flex flex-column align-items-center me-2">
+						<i class="fa-solid fa-arrow-right text-secondary" style="font-size: 0.8rem;"></i>
+					</div>`;
+				megaData=await getVariantsInfo(speciesData.varieties,i)
+				console.log(megaData)
+				// Disegniamo il Pokémon evoluto dentro il wrapper
+				await drawPokemon(megaData.name, megaWrap, megaData.name);
+				megaBranch.appendChild(megaWrap);
+			}
 		}
 		
 		async function drawPokemon(name, container, localNameEvo) {
