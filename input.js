@@ -1,5 +1,5 @@
 const submitBtn=document.getElementById('submit-button')
-
+const mainBody=document.getElementById('main-body')
 const langChoice=document.getElementById('lang-select')
 
 const prevBtn=document.getElementById('previous-button');

@@ -118,6 +118,13 @@ function restart()
 		delete currentSprites.front_shiny_female;
 		delete currentSprites.back_shiny_female;
 	}
+	//Rimetto lo sfondo normale
+	if(mainBody.classList.contains('MS-pattern')){
+		mainBody.classList.remove('MS-pattern')
+		mainBody.classList.add('pattern')
+	}
+	
+	
 	if(!variantAcc.classList.contains('d-none')) variantAcc.classList.add('d-none')
 	if(latestBtn.classList.contains('d-none')) latestBtn.classList.remove('d-none')
 	if(legacyBtn.classList.contains('d-none')) legacyBtn.classList.remove('d-none')
@@ -152,6 +159,13 @@ async function getPokemonInfos(IV)
 	}
 	//data=i dati del pokemon deciso
 		const data=await response.json();  //Arriva con successo!!!
+		
+			if(data.id>=10033 && data.id<=10076) // Cambio sfondo se mega/
+			{
+				mainBody.classList.remove("pattern")
+				mainBody.classList.add("MS-pattern")
+			}
+				
 			//console.log(abilityTable)
 			firstTry=false;
 			pokemonCard=document.getElementById("pokemonDescription")

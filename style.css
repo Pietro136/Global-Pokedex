@@ -39,6 +39,11 @@ header
 	background-size: 200px 200px;
 }
 
+.MS-pattern
+{
+	background-image: url("Immagini/MS-pattern.jpg");
+	background-size: 100px 100px;
+}
 #pokemonDescription
 {
 	/* Imposta una larghezza fissa minima */
