@@ -12,7 +12,8 @@ var currentSprites;
 var currentCry;
 var currentLan;
 var currentType;
-var currentMoveType
+var currentMoveType;
+var currentGame;
 //^^^
 
 var backSprite=false
@@ -59,6 +60,7 @@ function initialize()
 		legacy: ''
 	}
 	currentLan='en'
+	currentGame=''
 	currentType=''
 	currentMoveType=''
 	listVersion = document.getElementById("list-group-version");
@@ -94,6 +96,8 @@ function restart()
 	//console.log(abilityTable)
 	
     if (cardTitle) cardTitle.textContent = '';
+	
+	if(currentGame.length>0)currentGame='';
 	
 	if (spriteImg.src==currentSprites.front_shiny ||
 		spriteImg.src==currentSprites.back_shiny)
@@ -243,9 +247,15 @@ async function getPokemonInfos(IV)
 				let li=document.createElement("li")
 				li.classList.add("list-group-item")
 				li.classList.add("col-6")
+				li.classList.add("hoverV")
 				
 				let nodeT=document.createTextNode(version);
 				li.appendChild(nodeT);
+				
+				li.onclick = () => {
+					currentGame=li.textContent;
+					console.log(currentGame);
+				}
 				listVersion.appendChild(li);
 			})
 			
